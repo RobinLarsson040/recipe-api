@@ -32,11 +32,21 @@ let getIngredientByName = (input) => {
     })
 }
 
+let addRecipe = (recipe) => {
+    db.collection('recipes').insertOne(recipe).then((result) => {
+        console.log('Recipe added', result)
+    }).catch((err) => {
+        console.log('Failed to add recipe', err)
+    })
+}
+
+
 function capitalize(s) {
     return s[0].toUpperCase() + s.slice(1);
 }
 
 module.exports = {
     getIngredientsByAutoComplete,
-    getIngredientByName
+    getIngredientByName,
+    addRecipe
 }

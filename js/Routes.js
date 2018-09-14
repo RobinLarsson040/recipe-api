@@ -1,4 +1,4 @@
-const { getIngredientsByAutoComplete, getIngredientByName } = require('./mongodb')
+const { getIngredientsByAutoComplete, getIngredientByName, addRecipe } = require('./mongodb')
 module.exports = class Routes {
     constructor(app) {
         this.app = app;
@@ -25,6 +25,13 @@ module.exports = class Routes {
                 res.json(err)
             })
         })
+
+        this.app.post('/recipes', (req, res) => {
+            let recipe = req.body;
+            console.log(req.body)
+            addRecipe(recipe);
+        })
+
     }
 
 }
