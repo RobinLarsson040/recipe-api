@@ -33,13 +33,34 @@ let getIngredientByName = (input) => {
 }
 
 let addRecipe = (recipe) => {
-    db.collection('recipes').insertOne(recipe).then((result) => {
-        console.log('Recipe added', result)
-    }).catch((err) => {
-        console.log('Failed to add recipe', err)
+    return new Promise((resolve, reject) => {
+        db.collection('recipes').insertOne(recipe).then((result) => {
+            resolve(result)
+        }).catch((err) => {
+            reject(err)
+        })
     })
 }
 
+let getRecipes = () => {
+    return new Promise((resolve, reject) => {
+        db.collection('recipes').find().toArray().then((result) => {
+            resolve(result);
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+let getRecipesByCategory = (category) => {
+    return new Promise((resolve, reject) => {
+        db.collection('recipes').find({category: category}).toArray().then((result) => {
+            resolve(result);
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 function capitalize(s) {
     return s[0].toUpperCase() + s.slice(1);
@@ -48,5 +69,7 @@ function capitalize(s) {
 module.exports = {
     getIngredientsByAutoComplete,
     getIngredientByName,
-    addRecipe
+    addRecipe,
+    getRecipes,
+    getRecipesByCategory
 }
