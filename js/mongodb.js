@@ -54,6 +54,7 @@ let getRecipes = () => {
 
 let getRecipesByCategory = (category) => {
     return new Promise((resolve, reject) => {
+        console.log(category)
         db.collection('recipes').find({category: category}).toArray().then((result) => {
             resolve(result);
         }).catch((err) => {

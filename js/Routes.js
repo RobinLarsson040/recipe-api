@@ -27,6 +27,7 @@ module.exports = class Routes {
         })
 
         this.app.post('/recipes', (req, res) => {
+            //some validation logic to add new recipe here
             let recipe = req.body;
             addRecipe(recipe).then((result) => {
                 res.send('Succesfully added recipe')
