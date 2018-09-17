@@ -1,14 +1,14 @@
-const MongoClient = require('mongodb').MongoClient;
+/* const MongoClient = require('mongodb').MongoClient;
 let db;
 
-MongoClient.connect('mongodb://localhost:27017/Recipe-app', (err, client) => {
+ MongoClient.connect('mongodb://localhost:27017/Recipe-app', (err, client) => {
     if (err) {
         return console.log('Unable to connect to MongoDB server');
     }
     console.log('Connected to MongoDB server');
     const database = client.db('Recipe-app')
     db = database;
-})
+}) 
 
 let getIngredientsByAutoComplete = (input) => {
     return new Promise((resolve, reject) => {
@@ -74,3 +74,4 @@ module.exports = {
     getRecipes,
     getRecipesByCategory
 }
+ */

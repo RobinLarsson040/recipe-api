@@ -1,4 +1,5 @@
-const { getIngredientsByAutoComplete, getIngredientByName, addRecipe, getRecipes, getRecipesByCategory } = require('./mongodb')
+
+const {addRecipe,getRecipes,getIngredientByName,getIngredientsByAutoComplete,getRecipeByName,getRecipesByCategory} = require('./service')
 module.exports = class Routes {
     constructor(app) {
         this.app = app;
@@ -21,18 +22,17 @@ module.exports = class Routes {
         this.app.get('/ingredients/:name', (req, res) => {
             getIngredientByName(req.params.name).then((result) => {
                 res.json(result)
-            }).catch(() => {
+            }).catch((err) => {
                 res.json(err)
             })
         })
 
         this.app.post('/recipes', (req, res) => {
-            //some validation logic to add new recipe here
             let recipe = req.body;
             addRecipe(recipe).then((result) => {
-                res.send('Succesfully added recipe')
-            }).catch(() => {
-                res.send('Failed to add recipe')
+                res.send(result)
+            }).catch((error) => {
+                res.send(error)
             })
         })
 
@@ -46,6 +46,14 @@ module.exports = class Routes {
 
         this.app.get('/recipes/:category', (req, res) => {
             getRecipesByCategory(req.params.category).then((result) => {
+                res.json(result)
+            }).catch(() => {
+                res.json(err)
+            })
+        })
+
+        this.app.get('/recipe/:name', (req, res) => {
+            getRecipeByName(req.params.name).then((result) => {
                 res.json(result)
             }).catch(() => {
                 res.json(err)
