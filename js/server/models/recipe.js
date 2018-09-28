@@ -16,6 +16,12 @@ let RecipeSchema = mongoose.Schema(({
         max: 20,
         trim: true
     },
+    description: {
+        type: String,
+        required: true,
+        min: 2,
+        max: 200,
+    },
     persons: {
         type: Number,
         required: true,

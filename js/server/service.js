@@ -4,12 +4,11 @@ let { Ingredient } = require('./models/ingredient')
 
 let addRecipe = (recipeObj) => {
     return new Promise((resolve, reject) => {
-        CalulateNutritionsFromRecipe(recipeObj);
         let recipe = new Recipe(recipeObj);
         recipe.save().then(doc => {
-            resolve(doc);
+            resolve("success");
         }, (error) => {
-            reject(error.message)
+            reject(error)
         })
     })
 }
@@ -106,7 +105,7 @@ function CalulateNutritionsFromRecipe(recipe) {
         }
         recipe.ingredients.forEach(item => {
             let ingredientTotalGram = (item.units * item.unitEquivalentInGrams);
-            
+
             Ingredient.find({ Namn: item.name }).then((result) => {
                 result[0].Naringsvarden.Naringsvarde.map(item => {
                     if (item.Namn in totalNutritions) {
@@ -116,7 +115,6 @@ function CalulateNutritionsFromRecipe(recipe) {
             }).catch(() => {
 
             })
-
 
         });
         console.log(totalNutritions)

@@ -14,7 +14,7 @@ module.exports = class Routes {
                 }).catch((err) => {
                     res.json(err)
                 });
-            } else {
+            } else {    
                 res.send('Provide more than two characters for autocomplete')
             }
         })
