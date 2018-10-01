@@ -1,6 +1,7 @@
 let { mongoose } = require('./db/mongoose')
 let { Recipe } = require('./models/recipe')
 let { Ingredient } = require('./models/ingredient')
+let { User } = require('./models/user')
 
 let addRecipe = (recipeObj) => {
     return new Promise((resolve, reject) => {
@@ -8,6 +9,7 @@ let addRecipe = (recipeObj) => {
         recipe.save().then(doc => {
             resolve("success");
         }, (error) => {
+            console.log(error)
             reject(error)
         })
     })
@@ -48,7 +50,7 @@ let getRecipesByCategory = (category) => {
 let getIngredientsByAutoComplete = (input) => {
     return new Promise((resolve, reject) => {
         let name = capitalize(input);
-        Ingredient.find({ Namn: { $regex: "/*" + name + ".*" } }).then((result) => {
+        Ingredient.find({ Namn: new RegExp('^' + name, 'i') }).then((result) => {
             resolve({ result });
         }).catch((err) => {
             reject(err)
@@ -56,70 +58,17 @@ let getIngredientsByAutoComplete = (input) => {
     })
 }
 
-
-
-function capitalize(s) {
-    return s[0].toUpperCase() + s.slice(1);
-}
-
-function nutritionsFromIngredientPer100Gram(ingredient) {
-    //   calculateNutritionsFromIngredient(result[0].Naringsvarden.Naringsvarde)
-
-    ingredient.map(item => {
-        switch (item.Namn) {
-            case 'Protein':
-                ingredientNutritions.Protein = item.Varde;
-                break;
-            case 'Kolhydrater':
-                ingredientNutritions.Kolhydrater = item.Varde;
-                break;
-            case 'Fett':
-                ingredientNutritions.Fett = item.Varde;
-                break;
-            case 'Energi (kcal)':
-                ingredientNutritions.EnergiKcal = item.Varde;
-                break;
-            default:
-        }
-
-    })
-    return ingredientNutritions;
-}
-////////////LOOP THROUGHT OBJECTS AND TRY TO ATT TOTAL NUTRITION!
-function CalulateNutritionsFromRecipe(recipe) {
+let login = (user) =>{
     return new Promise((resolve, reject) => {
-
-        let totalNutritions = {
-            "Vitamin A": 0,
-            "Vitamin B": 0,
-            "Vitamin C": 0,
-            "Vitamin D": 0,
-            "Vitamin E": 0,
-            "Vitamin B12": 0,
-            "Vitamin B6": 0,
-            energiKcal: 0,
-            "Kolhydrater": 0,
-            "Proteiner": 0,
-            "Fett": 0,
-            "Järn": 0
-        }
-        recipe.ingredients.forEach(item => {
-            let ingredientTotalGram = (item.units * item.unitEquivalentInGrams);
-
-            Ingredient.find({ Namn: item.name }).then((result) => {
-                result[0].Naringsvarden.Naringsvarde.map(item => {
-                    if (item.Namn in totalNutritions) {
-                        totalNutritions[item.Namn] += ingredientTotalGram;
-                    }
-                })
-            }).catch(() => {
-
-            })
-
-        });
-        console.log(totalNutritions)
-
-
+        User.find({ username: user.username, password: user.password }).then((result) => {
+           if(result.length > 0){
+               resolve("success")
+           }else{
+               reject("error")
+           }
+        }).catch((err) => {
+            reject('error')
+        })
     })
 }
 
@@ -135,13 +84,18 @@ let getIngredientByName = (input) => {
     })
 }
 
+function capitalize(s) {
+    return s[0].toUpperCase() + s.slice(1);
+}
+
 module.exports = {
     addRecipe,
     getRecipes,
     getRecipesByCategory,
     getIngredientByName,
     getIngredientsByAutoComplete,
-    getRecipeByName
+    getRecipeByName,
+    login
 }
 
 

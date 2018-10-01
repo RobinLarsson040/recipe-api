@@ -1,4 +1,4 @@
-let {mongoose} = require('../db/mongoose')
+let { mongoose } = require('../db/mongoose')
 const uniqueValidator = require('mongoose-unique-validator');
 let RecipeSchema = mongoose.Schema(({
     name: {
@@ -28,8 +28,12 @@ let RecipeSchema = mongoose.Schema(({
         minval: 1
     },
     instructions: {
-        type: [String],
-        required: true
+        type: [
+            {
+                value: String
+            }
+        ],
+        required: true,
     },
     ingredients: {
         type: [
@@ -37,26 +41,20 @@ let RecipeSchema = mongoose.Schema(({
                 name: String,
                 units: Number,
                 measuringUnit: String,
-                unitEquivalentInGrams: Number
+                unitEquivalentInGrams: Number,
+                per100g: {
+                    "Energi (kcal)": String,
+                    "Fett": String,
+                    "Kolhydrater": String,
+                    "Protein": String,
+                    "Salt": String,
+                    "Socker totalt": String,
+                }
             }
         ],
         required: true
     },
-    totalNutritions: {
-        vitaminA: Number,
-        vitaminB: Number,
-        vitaminC: Number,
-        vitaminD: Number,
-        vitaminE: Number,
-        vitaminB12: Number,
-        vitaminB6: Number,
-        energiKcal: Number,
-        kolhydrater: Number,
-        protein: Number,
-        fett: Number,
-        jarn: Number
-    },
-    imgurl: {
+    imageUrl: {
         type: String
     }
 }))

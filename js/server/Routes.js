@@ -1,5 +1,5 @@
 
-const {addRecipe,getRecipes,getIngredientByName,getIngredientsByAutoComplete,getRecipeByName,getRecipesByCategory} = require('./service')
+const {login,addRecipe,getRecipes,getIngredientByName,getIngredientsByAutoComplete,getRecipeByName,getRecipesByCategory} = require('./service')
 module.exports = class Routes {
     constructor(app) {
         this.app = app;
@@ -30,6 +30,15 @@ module.exports = class Routes {
         this.app.post('/recipes', (req, res) => {
             let recipe = req.body;
             addRecipe(recipe).then((result) => {
+                res.send(result)
+            }).catch((error) => {
+                res.send(error)
+            })
+        })
+
+        this.app.post('/login', (req, res) => {
+            let user = req.body;
+            login(user).then((result) => {
                 res.send(result)
             }).catch((error) => {
                 res.send(error)
