@@ -35,6 +35,14 @@ let RecipeSchema = mongoose.Schema(({
         ],
         required: true,
     },
+    tags: {
+        type: [
+            {
+                value: String
+            }
+        ],
+        required: true,
+    },
     ingredients: {
         type: [
             {
@@ -49,6 +57,9 @@ let RecipeSchema = mongoose.Schema(({
                     "Protein": String,
                     "Salt": String,
                     "Socker totalt": String,
+                    "Summa mättade fettsyror": String,
+                    "Summa enkelomättade fettsyror": String,
+                    "Summa fleromättade fettsyror": String
                 }
             }
         ],
